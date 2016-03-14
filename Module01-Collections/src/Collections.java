@@ -1,97 +1,64 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Collections {
     static final int AMOUNT_OF_CALCULATIONS = 100;
 
-    public static void main(String[] args) {
-        /*
-        //ArrayList
-        //add() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K add() average time is: "
-                + addingList(new ArrayList<Integer>(), 10000) + "ms");
+    public static void main(String[] args) throws IOException {
 
-        //add() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K add() average time is: "
-                + addingList(new ArrayList<Integer>(), 100000) + "ms");
+        FileWriter fileWriter = new FileWriter("result.csv");
 
-        //add() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M add() average time is: "
-                + addingList(new ArrayList<Integer>(), 1000000) + "ms");
+        fileWriter.write(";add();get();remove();contains();populate();iterator.add();iterator.remove()");
+        fileWriter.write(System.lineSeparator());
 
-        System.out.println();
-        //
-        //get() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K get() average time is: "
-                + gettingList(new ArrayList<Integer>(), 10000) + "ms");
 
-        //get() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K get() average time is: "
-                + gettingList(new ArrayList<Integer>(), 100000) + "ms");
+        for (int i = 1; i <= 3; i++) {
+            int amount = (int) Math.pow(10, 3 + i);
+            //ArrayList<>
+            fileWriter.write("ArrayList;");
+            fileWriter.write(listAdd(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements add() done!");
+            fileWriter.write(listGet(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements get() done!");
+            fileWriter.write(listRemove(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements remove() done!");
+            fileWriter.write(contains(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements contains() done!");
+            fileWriter.write(populating(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements populate() done!");
+            fileWriter.write(listIteratorAdd(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements iterator.add() done!");
+            fileWriter.write(listIteratorRemove(new ArrayList<Integer>(), amount) + ";");
+            System.out.println("ArrayList " + amount + " elements iterator.remove() done!");
+            fileWriter.write(System.lineSeparator());
 
-        //get() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M get() average time is: "
-                + gettingList(new ArrayList<Integer>(), 1000000) + "ms");
+            //LinkedList<>
+            fileWriter.write("LinkedList;");
+            fileWriter.write(listAdd(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements add() done!");
+            fileWriter.write(listGet(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements get() done!");
+            fileWriter.write(listRemove(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements remove() done!");
+            fileWriter.write(contains(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements contains() done!");
+            fileWriter.write(populating(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements populate() done!");
+            fileWriter.write(listIteratorAdd(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements iterator.add() done!");
+            fileWriter.write(listIteratorRemove(new LinkedList<Integer>(), amount) + ";");
+            System.out.println("LinkedList " + amount + " elements iterator.remove() done!");
+            fileWriter.write(System.lineSeparator());
 
-        System.out.println();
-        //
-        //remove() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K remove() average time is: "
-                + removingList(new ArrayList<Integer>(), 10000) + "ms");
-
-        //remove() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K remove() average time is: "
-                + removingList(new ArrayList<Integer>(), 100000) + "ms");
-
-        //remove() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M remove() average time is: "
-                + removingList(new ArrayList<Integer>(), 1000000) + "ms");
-
-        System.out.println();
-        //
-        //contains() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K contains() average time is: "
-                + contains(new ArrayList<Integer>(), 10000) + "ms");
-
-        //contains() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K contains() average time is: "
-                + contains(new ArrayList<Integer>(), 100000) + "ms");
-
-        //contains() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M contains() average time is: "
-                + contains(new ArrayList<Integer>(), 1000000) + "ms");
-
-        System.out.println();
-        //
-        //populate() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K populate() average time is: "
-                + populating(new ArrayList<Integer>(), 10000) + "ms");
-
-        //populate() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K populate() average time is: "
-                + populating(new ArrayList<Integer>(), 100000) + "ms");
-
-        //populate() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M populate() average time is: "
-                + populating(new ArrayList<Integer>(), 1000000) + "ms");
-
-         */
-        System.out.println();
-        //
-        //iterator.add() 10K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 10K iterator.add() average time is: "
-                + iteratorAddList(new ArrayList<Integer>(), 10000) + "ms");
-
-        //iterator.add() 100K
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 100K iterator.add() average time is: "
-                + iteratorAddList(new ArrayList<Integer>(), 100000) + "ms");
-
-        //iterator.add() 1M
-        System.out.println("Arraylist " + AMOUNT_OF_CALCULATIONS + " calculations, 1M iterator.add() average time is: "
-                + iteratorAddList(new ArrayList<Integer>(), 1000000) + "ms");
+            fileWriter.write(System.lineSeparator());
+            fileWriter.write(System.lineSeparator());
+        }
+        fileWriter.close();
 
     }
 
-    private static float addingList(List<Integer> list, int amount) {
+    private static float listAdd(List<Integer> list, int amount) {
         Date time = new Date();
 
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
@@ -111,27 +78,7 @@ public class Collections {
         return average(duration);
     }
 
-    private static float iteratorAddList(List<Integer> list, int amount) {
-        Date time = new Date();
-
-        long[] duration = new long[AMOUNT_OF_CALCULATIONS];
-
-        for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
-            //fill
-            list.clear();
-            for (int j = 0; j < amount; j++) {
-                list.add((int)(Math.random() * 35465));
-            }
-            time = new Date();
-            for (int j = 0; j < AMOUNT_OF_CALCULATIONS; j++) {
-                list.listIterator((int)(Math.random() * list.size())).add((int)(Math.random() * list.size()));
-            }
-            duration[i] = new Date().getTime() - time.getTime();
-        }
-        return average(duration);
-    }
-
-    private static float gettingList(List<Integer> list, int amount) {
+    private static float listGet(List<Integer> list, int amount) {
         Date time = new Date();
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
@@ -144,6 +91,26 @@ public class Collections {
             time = new Date();
             for (int j = 0; j < amount; j++) {
                 list.get((int) (Math.random() * list.size()));
+            }
+            duration[i] = new Date().getTime() - time.getTime();
+
+        }
+        return average(duration);
+    }
+
+    private static float listRemove(List<Integer> list, int amount) {
+        Date time = new Date();
+        long[] duration = new long[AMOUNT_OF_CALCULATIONS];
+
+        //filling
+        for (int i = 0; i < amount; i++) {
+            list.add(i);
+        }
+
+        for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
+            time = new Date();
+            for (int j = 0; j < list.size(); j++) {
+                list.remove((int) (Math.random() * list.size()));
             }
             duration[i] = new Date().getTime() - time.getTime();
 
@@ -186,25 +153,53 @@ public class Collections {
         return average(duration);
     }
 
-    private static float removingList(List<Integer> list, int amount) {
+    private static float listIteratorAdd(List<Integer> list, int amount) {
         Date time = new Date();
+
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
-        //filling
-        for (int i = 0; i < amount; i++) {
-            list.add(i);
-        }
-
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
+            //fill
+            list.clear();
+            for (int j = 0; j < amount; j++) {
+                list.add((int)(Math.random() * 35465));
+            }
+            Iterator<Integer> iterator = list.iterator();
+            Integer num;
+
             time = new Date();
-            for (int j = 0; j < list.size(); j++) {
-                list.remove((int) (Math.random() * list.size()));
+            for (int j = 0; j < amount; j++) {
+                num = iterator.next();
             }
             duration[i] = new Date().getTime() - time.getTime();
-
         }
         return average(duration);
     }
+
+    private static float listIteratorRemove(List<Integer> list, int amount) {
+        Date time = new Date();
+
+        long[] duration = new long[AMOUNT_OF_CALCULATIONS];
+
+        for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
+            //fill
+            list.clear();
+            for (int j = 0; j < amount; j++) {
+                list.add((int)(Math.random() * 35465));
+            }
+            Iterator<Integer> iterator = list.iterator();
+
+            time = new Date();
+            for (int j = 0; j < AMOUNT_OF_CALCULATIONS; j++) {
+                iterator.next();
+                iterator.remove();
+            }
+            duration[i] = new Date().getTime() - time.getTime();
+        }
+        return average(duration);
+    }
+
+
 
     private static float average(long[] duration) {
         int average = 0;
