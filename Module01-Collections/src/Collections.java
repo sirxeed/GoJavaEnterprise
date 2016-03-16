@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Collections {
     static final int AMOUNT_OF_CALCULATIONS = 100;
+    static final int AMOUNT_OF_ITERATIONS = 1000;
 
     public static void main(String[] args) throws IOException {
         FileWriter fileWriter = new FileWriter("result.csv");
@@ -35,7 +36,7 @@ public class Collections {
             fileWriter.write("LinkedList;");
             fileWriter.write(listAdd(new LinkedList<Integer>(), amount) + ";");
             System.out.println("LinkedList " + amount + " elements add() done!");
-            fileWriter.write(listGetLinked(new LinkedList<Integer>(), 1000000) + ";");
+            fileWriter.write(listGet(new LinkedList<Integer>(), amount) + ";");
             System.out.println("LinkedList " + amount + " elements get() done!");
             fileWriter.write(listRemove(new LinkedList<Integer>(), amount) + ";");
             System.out.println("LinkedList " + amount + " elements remove() done!");
@@ -53,6 +54,7 @@ public class Collections {
             fileWriter.write("HashSet;");
             fileWriter.write(setAdd(new HashSet<Integer>(), amount) + ";");
             System.out.println("HashSet " + amount + " elements add() done!");
+            fileWriter.write(";");
             fileWriter.write(setRemove(new HashSet<Integer>(), amount) + ";");
             System.out.println("HashSet " + amount + " elements remove() done!");
             fileWriter.write(contains(new HashSet<Integer>(), amount) + ";");
@@ -65,12 +67,15 @@ public class Collections {
             fileWriter.write("TreeSet;");
             fileWriter.write(setAdd(new TreeSet<Integer>(), amount) + ";");
             System.out.println("TreeSet " + amount + " elements add() done!");
+            fileWriter.write(";");
             fileWriter.write(setRemove(new TreeSet<Integer>(), amount) + ";");
             System.out.println("TreeSet " + amount + " elements remove() done!");
             fileWriter.write(contains(new TreeSet<Integer>(), amount) + ";");
             System.out.println("TreeSet " + amount + " elements contains() done!");
             fileWriter.write(populate(new TreeSet<Integer>(), amount) + ";");
             System.out.println("TreeSet " + amount + " elements populate() done!");
+            System.out.println("-------------------------------------------------------------------------");
+            System.out.println();
 
             fileWriter.write(System.lineSeparator());
             fileWriter.write(System.lineSeparator());
@@ -80,18 +85,18 @@ public class Collections {
     }
 
     private static float listAdd(List<Integer> list, int amount) {
-        Date time = new Date();
+        Date time;
 
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
         //fill
         for (int i = 0; i < amount; i++) {
-            list.add((int) (Math.random() * 35465));
+            list.add((int) (Math.random() * amount));
         }
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
             list.clear();
             time = new Date();
-            for (int j = 0; j < list.size(); j++) {
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS * 10; j++) {
                 list.add((int) (Math.random() * list.size()), (int) (Math.random() * list.size()));
             }
             duration[i] = new Date().getTime() - time.getTime();
@@ -101,38 +106,17 @@ public class Collections {
 
     private static float listGet(List<Integer> list, int amount) {
         Date time;
-        long[] duration = new long[AMOUNT_OF_CALCULATIONS / 2];
+        long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         //filling
         for (int i = 0; i < amount; i++) {
             list.add(i);
         }
 
-        for (int i = 0; i < AMOUNT_OF_CALCULATIONS / 2; i++) {
+        for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
             time = new Date();
-            for (int j = 0; j < amount; j++) {
-                list.get((int) (Math.random() * list.size()));
-            }
-            duration[i] = new Date().getTime() - time.getTime();
-
-        }
-        return average(duration);
-    }
-
-    private static float listGetLinked(List<Integer> list, int amount) {
-        Date time;
-        long[] duration = new long[AMOUNT_OF_CALCULATIONS / 2];
-
-        //filling
-        for (int i = 0; i < amount; i++) {
-            list.add(i);
-        }
-
-        for (int i = 0; i < AMOUNT_OF_CALCULATIONS / 2; i++) {
-            System.out.println("LinkedList.get() iteration " + i + " of " + AMOUNT_OF_CALCULATIONS / 2);
-            time = new Date();
-            for (int j = 0; j < amount; j++) {
-                list.get((int) (Math.random() * list.size()));
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
+                list.get((int) (Math.random() * (amount - 1)));
             }
             duration[i] = new Date().getTime() - time.getTime();
 
@@ -144,15 +128,16 @@ public class Collections {
         Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
-        //filling
-        for (int i = 0; i < amount; i++) {
-            list.add(i);
-        }
-
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
+            //filling
+            list.clear();
+            for (int j = 0; j <= amount + 1000; j++) {
+                list.add((int)(Math.random() * (list.size() - 1)));
+            }
+
             time = new Date();
-            for (int j = 0; j < list.size(); j++) {
-                list.remove((int) (Math.random() * list.size()));
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
+                list.remove((int) (Math.random() * (amount - 1)));
             }
             duration[i] = new Date().getTime() - time.getTime();
 
@@ -171,7 +156,7 @@ public class Collections {
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
             time = new Date();
-            for (int j = 0; j < AMOUNT_OF_CALCULATIONS; j++) {
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
                 collection.contains((int) (Math.random() * collection.size()));
             }
             duration[i] = new Date().getTime() - time.getTime();
@@ -206,12 +191,11 @@ public class Collections {
             for (int j = 0; j < amount; j++) {
                 list.add((int) (Math.random() * 35465));
             }
-            Iterator<Integer> iterator = list.iterator();
-            Integer num;
+            ListIterator<Integer> iterator = list.listIterator();
 
             time = new Date();
-            for (int j = 0; j < amount; j++) {
-                num = iterator.next();
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
+                iterator.add((int)(Math.random() * amount));
             }
             duration[i] = new Date().getTime() - time.getTime();
         }
@@ -231,7 +215,7 @@ public class Collections {
             Iterator<Integer> iterator = list.iterator();
 
             time = new Date();
-            for (int j = 0; j < AMOUNT_OF_CALCULATIONS; j++) {
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
                 iterator.next();
                 iterator.remove();
             }
@@ -246,8 +230,13 @@ public class Collections {
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
             set.clear();
-            time = new Date();
+            //Fill
             for (int j = 0; j < amount; j++) {
+                set.add((int) (Math.random() * amount));
+            }
+
+            time = new Date();
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
                 set.add((int) (Math.random() * amount));
             }
             duration[i] = new Date().getTime() - time.getTime();
@@ -267,7 +256,7 @@ public class Collections {
             }
             //Remove
             time = new Date();
-            for (int j = 0; j < amount; j++) {
+            for (int j = 0; j < AMOUNT_OF_ITERATIONS; j++) {
                 set.remove((int) (Math.random() * amount));
             }
             duration[i] = new Date().getTime() - time.getTime();
