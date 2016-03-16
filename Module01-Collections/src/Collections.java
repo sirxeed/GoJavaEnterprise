@@ -35,7 +35,7 @@ public class Collections {
             fileWriter.write("LinkedList;");
             fileWriter.write(listAdd(new LinkedList<Integer>(), amount) + ";");
             System.out.println("LinkedList " + amount + " elements add() done!");
-            fileWriter.write(listGet(new LinkedList<Integer>(), amount) + ";");
+            fileWriter.write(listGetLinked(new LinkedList<Integer>(), 1000000) + ";");
             System.out.println("LinkedList " + amount + " elements get() done!");
             fileWriter.write(listRemove(new LinkedList<Integer>(), amount) + ";");
             System.out.println("LinkedList " + amount + " elements remove() done!");
@@ -100,7 +100,7 @@ public class Collections {
     }
 
     private static float listGet(List<Integer> list, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS / 2];
 
         //filling
@@ -119,8 +119,29 @@ public class Collections {
         return average(duration);
     }
 
+    private static float listGetLinked(List<Integer> list, int amount) {
+        Date time;
+        long[] duration = new long[AMOUNT_OF_CALCULATIONS / 2];
+
+        //filling
+        for (int i = 0; i < amount; i++) {
+            list.add(i);
+        }
+
+        for (int i = 0; i < AMOUNT_OF_CALCULATIONS / 2; i++) {
+            System.out.println("LinkedList.get() iteration " + i + " of " + AMOUNT_OF_CALCULATIONS / 2);
+            time = new Date();
+            for (int j = 0; j < amount; j++) {
+                list.get((int) (Math.random() * list.size()));
+            }
+            duration[i] = new Date().getTime() - time.getTime();
+
+        }
+        return average(duration);
+    }
+
     private static float listRemove(List<Integer> list, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         //filling
@@ -140,7 +161,7 @@ public class Collections {
     }
 
     private static float contains(Collection<Integer> collection, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         //filling
@@ -160,7 +181,7 @@ public class Collections {
     }
 
     private static float populate(Collection<Integer> collection, int amount) {
-        Date time = new Date();
+        Date time;
 
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
@@ -175,7 +196,7 @@ public class Collections {
     }
 
     private static float listIteratorAdd(List<Integer> list, int amount) {
-        Date time = new Date();
+        Date time;
 
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
@@ -198,7 +219,7 @@ public class Collections {
     }
 
     private static float listIteratorRemove(List<Integer> list, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
@@ -220,7 +241,7 @@ public class Collections {
     }
 
     private static float setAdd(Set<Integer> set, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
@@ -236,7 +257,7 @@ public class Collections {
     }
 
     private static float setRemove(Set<Integer> set, int amount) {
-        Date time = new Date();
+        Date time;
         long[] duration = new long[AMOUNT_OF_CALCULATIONS];
 
         for (int i = 0; i < AMOUNT_OF_CALCULATIONS; i++) {
