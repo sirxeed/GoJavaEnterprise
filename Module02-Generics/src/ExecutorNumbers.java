@@ -19,7 +19,9 @@ public class ExecutorNumbers implements Executor<Number> {
     public void execute() {
         for (Task task : tasks) {
             task.execute();
-
+            if (new ValidatorNumbers().isValid(task.getResult())) {
+                validResults.add(task.getResult());
+            }
         }
     }
 
