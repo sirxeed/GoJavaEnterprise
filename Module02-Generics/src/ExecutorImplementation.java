@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class ExecutorImplementation implements Executor {
+public class ExecutorImplementation implements Executor<Number> {
     List<Task> tasks;
 
     @Override

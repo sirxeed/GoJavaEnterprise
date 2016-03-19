@@ -4,5 +4,5 @@ public interface Task<T> {
     void execute();
 
     // Возвращает результат выполнения
-    Object getResult();
+    T getResult();
 }
