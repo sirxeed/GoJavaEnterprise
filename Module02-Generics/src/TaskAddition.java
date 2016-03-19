@@ -8,10 +8,12 @@ public class TaskAddition implements Task {
         this.b = b;
     }
 
+    @Override
     public void execute() {
         result = a + b;
     }
 
+    @Override
     public Integer getResult() {
         return result;
     }
