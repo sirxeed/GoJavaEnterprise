@@ -1,7 +1,7 @@
 public class Generics {
 
     public static void main(String[] args) {
-        ExecutorImplementation test = new ExecutorImplementation();
+        ExecutorNumbers test = new ExecutorNumbers();
 
         test.addTask(new TaskAddition(5, 5));
         test.addTask(new TaskAddition(2, 30));
