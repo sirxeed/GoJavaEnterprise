@@ -1,7 +1,7 @@
-public class TaskAddition implements Task {
+public class TaskAddition implements Task<Integer> {
     private int a;
     private int b;
-    private int result;
+    private Integer result;
 
     public TaskAddition(int a, int b) {
         this.a = a;

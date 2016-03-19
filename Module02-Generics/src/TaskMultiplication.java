@@ -1,4 +1,4 @@
-public class TaskMultiplication implements Task {
+public class TaskMultiplication implements Task<Float> {
     private float a;
     private float b;
     private float result;
