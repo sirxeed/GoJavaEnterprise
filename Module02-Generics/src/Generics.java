@@ -1,6 +1,6 @@
 public class Generics {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         ExecutorNumbers test = new ExecutorNumbers();
 
         test.addTask(new TaskAddition(5, 5));
