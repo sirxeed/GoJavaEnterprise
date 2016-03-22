@@ -32,7 +32,7 @@ public class ExecutorNumbers implements Executor<Number> {
     public void execute() {
         for (Task<? extends Number> task : tasks) {
             task.execute();
-            if (!taskValidatorMap.get(task).equals(null)) {
+            if (!(taskValidatorMap.get(task) == null)) {
                 if (taskValidatorMap.get(task).isValid(task.getResult())) {
                     validResults.add(task.getResult());
                 } else {

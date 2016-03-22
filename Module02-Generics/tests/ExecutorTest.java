@@ -53,4 +53,16 @@ public class ExecutorTest {
         test.addTask(new TaskAddition(35, 25), new ValidatorNumbers());
     }
 
+    @Test
+    public void test7() throws Exception {
+        ExecutorNumbers test = new ExecutorNumbers();
+        test.addTask(new TaskMultiplication(2.2f, 50));
+        test.addTask(new TaskAddition(3, 8), new ValidatorNumbers());
+        test.addTask(new TaskMultiplication(15, 10));
+        test.execute();
+        Assert.assertEquals(110f, test.getValidResults().get(0));
+        Assert.assertEquals(11, test.getValidResults().get(1));
+        Assert.assertEquals(150f, test.getValidResults().get(2));
+    }
+
 }
