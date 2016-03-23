@@ -6,13 +6,16 @@ import java.util.Set;
 public class LectureSynchronizedExample {
 
     private int counter;
+    private final Object lock = new Object();
 
     public static void main(String[] args) throws InterruptedException {
         new LectureSynchronizedExample().test();
     }
 
     public int increment() {
-        return counter++;
+        synchronized (lock) {
+            return counter++;
+        }
     }
 
     public void test() throws InterruptedException {
@@ -24,14 +27,19 @@ public class LectureSynchronizedExample {
         }
 
         Thread.sleep(100);
+        boolean isValid = true;
 
         Set<Integer> integerSet = new HashSet<>();
         for (Aggregator aggregator : aggregators) {
             for (Integer anInt : aggregator.ints) {
-                if (integerSet.add(anInt)) {
+                if (!integerSet.add(anInt)) {
                     System.out.println("Error! Duplicate found:" + anInt);
+                    isValid = false;
                 }
             }
+        }
+        if (isValid) {
+            System.out.println("No duplicates");
         }
     }
 
