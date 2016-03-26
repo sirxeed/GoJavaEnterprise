@@ -1,4 +1,4 @@
-public class SemaphoreInterfaceImplementation implements SemaphoreInterface {
+public class SemaphoreImplementation implements SemaphoreInterface {
     private volatile int permits;
     private volatile int threadsStarted;
     private int threadIndex = 1;
@@ -6,7 +6,7 @@ public class SemaphoreInterfaceImplementation implements SemaphoreInterface {
 
     private final Object lock = new Object();
 
-    public SemaphoreInterfaceImplementation(int permits) {
+    public SemaphoreImplementation(int permits) {
         this.permits = permits;
     }
 
@@ -60,7 +60,7 @@ public class SemaphoreInterfaceImplementation implements SemaphoreInterface {
             if (threadsStarted > permits) {
                 threadsStarted -= permits;
                 this.permits++;
-                System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
                 lock.notify();
             }
 
