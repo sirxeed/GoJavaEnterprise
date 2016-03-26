@@ -7,7 +7,7 @@ public class Starter {
 
     public static void main(String[] args) throws InterruptedException {
         final SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 1000; i++) {
             Thread thread = new Thread(new Worker(i, semaphore));
             thread.start();
         }
