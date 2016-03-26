@@ -1,0 +1,76 @@
+public class SemaphoreInterfaceImplementation implements SemaphoreInterface {
+    private volatile int permits;
+    private volatile int threadsStarted;
+    private int threadIndex = 1;
+    private int counter = 0;
+
+    private final Object lock = new Object();
+
+    public SemaphoreInterfaceImplementation(int permits) {
+        this.permits = permits;
+    }
+
+    // Запрашивает разрешение. Если есть свободное захватывает его. Если нет - приостанавливает поток до тех пор пока не появится свободное разрешение.
+    @Override
+    public void acquire() throws InterruptedException {
+        synchronized (lock) {
+            if (permits > 0) {
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" acquired.");
+                permits--;
+                threadsStarted++;
+            } else {
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" freezed.");
+                lock.wait();
+            }
+        }
+    }
+
+    // Запрашивает переданое количество разрешений. Если есть переданое количество свободных разрешений захватывает их.
+    // Если нет - приостанавливает поток до тех пор пока не появится переданое колтчество свободных разрешений.
+    @Override
+    public void acquire(int permits) throws InterruptedException {
+        synchronized (lock) {
+            if (this.permits >= permits) {
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" acquired.");
+                this.permits -= permits;
+            } else {
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" freezed.");
+                lock.wait();
+            }
+        }
+    }
+
+    // Отпускает разрешение возвращая его семафору.
+    @Override
+    public void release() throws InterruptedException {
+        synchronized (lock) {
+            if (threadsStarted > 0) {
+                threadsStarted--;
+                permits++;
+                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
+                lock.notify();
+            }
+        }
+    }
+
+    // Отпускает переданое количество разрешений возварщая их семафору.
+    @Override
+    public void release(int permits) {
+        synchronized (lock) {
+            if (threadsStarted > permits) {
+                threadsStarted -= permits;
+                this.permits++;
+                System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
+                lock.notify();
+            }
+
+        }
+    }
+
+    // Возвращает количество свободных разрешений на данный момент.
+    @Override
+    public int getAvailablePermits() {
+        return permits;
+    }
+
+}
