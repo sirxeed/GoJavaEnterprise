@@ -1,12 +1,23 @@
-public class Starter {
-    private static int counter = 0;
+import java.util.ArrayList;
+import java.util.List;
 
-    public static void main(String[] args) {
+public class Starter {
+    private volatile static int counter = 0;
+    private static List<Integer> list = new ArrayList<>();
+
+    public static void main(String[] args) throws InterruptedException {
         final SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 100; i++) {
             Thread thread = new Thread(new Worker(i, semaphore));
             thread.start();
         }
+
+        Thread.sleep(100);
+
+        for (Integer element : list) {
+            System.out.println("Counter = " + element);
+        }
+
     }
 
     public static class Worker implements Runnable {
@@ -28,8 +39,8 @@ public class Starter {
                 semaphore.acquire();
 
                 //початок критичної секції
-                counter++;
-                System.out.println("Counter = " + counter);
+                list.add(++counter);
+                //System.out.println("Counter = " + counter);
                 //System.out.println("Critical section. Thread #" + threadIndex + ". Counter = " + counter);
                 semaphore.release();//критична секція закінчилась - віддаємо дозвіл.
 
