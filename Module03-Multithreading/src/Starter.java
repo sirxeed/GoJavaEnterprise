@@ -38,12 +38,11 @@ public class Starter {
                 //потік перевірив дозвіл семафору і якщо він є, то забрав його. Якщо ні - чекає.
                 semaphore.acquire();
 
-                //початок критичної секції
                 list.add(++counter);
                 //System.out.println("Counter = " + counter);
                 //System.out.println("Critical section. Thread #" + threadIndex + ". Counter = " + counter);
-                semaphore.release();//критична секція закінчилась - віддаємо дозвіл.
 
+                semaphore.release();
                 //System.out.println("End of thread #" + threadIndex);
             } catch (Exception e) {
                 e.printStackTrace();

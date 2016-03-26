@@ -1,7 +1,5 @@
 public class SemaphoreImplementation implements SemaphoreInterface {
     private volatile int permits;
-    private int threadIndex = 1;
-    private int counter = 0;
 
     private final Object lock = new Object();
 
@@ -47,9 +45,10 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     @Override
     public void release(int permits) {
         synchronized (lock) {
-            this.permits++;
-            lock.notify();
-
+            this.permits += permits;
+            for (int i = 0; i < permits; i++) {
+                lock.notify();
+            }
         }
     }
 
@@ -58,5 +57,4 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     public int getAvailablePermits() {
         return permits;
     }
-
 }
