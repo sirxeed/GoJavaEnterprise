@@ -1,6 +1,5 @@
 public class SemaphoreImplementation implements SemaphoreInterface {
     private volatile int permits;
-    private volatile int threadsStarted;
     private int threadIndex = 1;
     private int counter = 0;
 
@@ -15,11 +14,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     public void acquire() throws InterruptedException {
         synchronized (lock) {
             if (permits > 0) {
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" acquired.");
                 permits--;
-                threadsStarted++;
             } else {
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" freezed.");
                 lock.wait();
             }
         }
@@ -31,10 +27,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     public void acquire(int permits) throws InterruptedException {
         synchronized (lock) {
             if (this.permits >= permits) {
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" acquired.");
                 this.permits -= permits;
             } else {
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" freezed.");
                 lock.wait();
             }
         }
@@ -44,12 +38,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     @Override
     public void release() throws InterruptedException {
         synchronized (lock) {
-            if (threadsStarted > 0) {
-                threadsStarted--;
-                permits++;
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
-                lock.notify();
-            }
+            permits++;
+            lock.notify();
         }
     }
 
@@ -57,12 +47,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
     @Override
     public void release(int permits) {
         synchronized (lock) {
-            if (threadsStarted > permits) {
-                threadsStarted -= permits;
-                this.permits++;
-                //System.out.println("Thread \"" + Thread.currentThread().getName() + "\" released.");
-                lock.notify();
-            }
+            this.permits++;
+            lock.notify();
 
         }
     }
