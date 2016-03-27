@@ -9,7 +9,7 @@ public class SemaphoreImplementation implements SemaphoreInterface {
 
     // Запрашивает разрешение. Если есть свободное захватывает его. Если нет - приостанавливает поток до тех пор пока не появится свободное разрешение.
     @Override
-    public void acquire() throws InterruptedException {
+    public synchronized void acquire() throws InterruptedException {
         synchronized (lock) {
             if (permits > 0) {
                 permits--;
@@ -34,20 +34,23 @@ public class SemaphoreImplementation implements SemaphoreInterface {
 
     // Отпускает разрешение возвращая его семафору.
     @Override
-    public void release() throws InterruptedException {
+    public synchronized void release() throws InterruptedException {
         synchronized (lock) {
+            lock.wait(5);
             permits++;
+            System.out.println(permits);
             lock.notify();
         }
     }
 
     // Отпускает переданое количество разрешений возварщая их семафору.
     @Override
-    public void release(int permits) {
+    public void release(int permits) throws InterruptedException {
         synchronized (lock) {
             this.permits += permits;
             for (int i = 0; i < permits; i++) {
                 lock.notify();
+                lock.wait(5);
             }
         }
     }

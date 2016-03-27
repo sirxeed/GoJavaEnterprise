@@ -11,7 +11,7 @@ public interface SemaphoreInterface {
     public void release() throws InterruptedException;
 
     // Отпускает переданое количество разрешений возварщая их семафору.
-    public void release(int permits);
+    public void release(int permits) throws InterruptedException;
 
     // Возвращает количество свободных разрешений на данный момент.
     public int getAvailablePermits();

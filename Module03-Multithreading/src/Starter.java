@@ -6,27 +6,20 @@ public class Starter {
     private static List<Integer> list = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
-        final SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
+        final  SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
         for (int i = 1; i <= 1000; i++) {
             Thread thread = new Thread(new Worker(i, semaphore));
             thread.start();
         }
-
-        Thread.sleep(100);
-
-        for (Integer element : list) {
-            System.out.println("Counter = " + element);
-        }
-
     }
 
     public static class Worker implements Runnable {
-        private int threadIndex;
+        //private int threadIndex;
         SemaphoreInterface semaphore;
 
 
         public Worker(int threadIndex, SemaphoreInterface semaphore) {
-            this.threadIndex = threadIndex;
+            //this.threadIndex = threadIndex;
             this.semaphore = semaphore;
         }
 
@@ -38,8 +31,8 @@ public class Starter {
                 //потік перевірив дозвіл семафору і якщо він є, то забрав його. Якщо ні - чекає.
                 semaphore.acquire();
 
-                list.add(++counter);
-                //System.out.println("Counter = " + counter);
+                ++counter;
+                //System.out.println("Counter = " + counter + "\t" + semaphore.getAvailablePermits());
                 //System.out.println("Critical section. Thread #" + threadIndex + ". Counter = " + counter);
 
                 semaphore.release();
