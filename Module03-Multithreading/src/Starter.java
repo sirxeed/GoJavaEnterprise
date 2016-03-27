@@ -1,9 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Starter {
     private volatile static int counter = 0;
-    private static List<Integer> list = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
         final  SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
@@ -32,7 +28,7 @@ public class Starter {
                 semaphore.acquire();
 
                 ++counter;
-                //System.out.println("Counter = " + counter + "\t" + semaphore.getAvailablePermits());
+                System.out.println("Counter = " + counter + ".\tAvailable permits: " + semaphore.getAvailablePermits());
                 //System.out.println("Critical section. Thread #" + threadIndex + ". Counter = " + counter);
 
                 semaphore.release();
