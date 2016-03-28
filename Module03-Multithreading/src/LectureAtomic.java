@@ -14,7 +14,7 @@ public class LectureAtomic {
     }
 
     public int increment() {
-        return counter.incrementAndGet();
+        return counter.getAndIncrement();
         //return counter++;
     }
 
