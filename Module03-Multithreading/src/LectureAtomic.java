@@ -5,12 +5,14 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LectureAtomic {
+    private static AtomicInteger integer = new AtomicInteger(0);
 
     private AtomicInteger counter = new AtomicInteger(0);
     private final Object lock = new Object();
 
     public static void main(String[] args) throws InterruptedException {
         new LectureAtomic().test();
+        integer.set(5);
     }
 
     public int increment() {
