@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
@@ -10,7 +11,10 @@ public class LectureExecutorExample {
         //new LectureExecutorExample().testSubmit();
         //new LectureExecutorExample().testException();
         //new LectureExecutorExample().testInvokeAny();
-        new LectureExecutorExample().testInvokeAll();
+        //new LectureExecutorExample().testInvokeAll();
+        //new LectureExecutorExample().testScheduled();
+        new LectureExecutorExample().testScheduledAtFixedRate();
+
     }
 
     public void testExecute() {
@@ -87,5 +91,31 @@ public class LectureExecutorExample {
         }
 
         executor.shutdown();
+    }
+
+    public void testScheduled() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        System.out.println("Task scheduled at " + new Date());
+        executorService.schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("task executed at " + new Date());
+            }
+        }, 1, TimeUnit.SECONDS);
+
+        executorService.shutdown();
+    }
+
+    public void testScheduledAtFixedRate() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        System.out.println("Task scheduled at " + new Date());
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("task executed at " + new Date());
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+
+        executorService.shutdown();
     }
 }
