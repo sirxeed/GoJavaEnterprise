@@ -106,7 +106,7 @@ public class LectureExecutorExample {
         executorService.shutdown();
     }
 
-    public void testScheduledAtFixedRate() {
+    public void testScheduledAtFixedRate() throws InterruptedException {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         System.out.println("Task scheduled at " + new Date());
         executorService.scheduleAtFixedRate(new Runnable() {
@@ -116,6 +116,7 @@ public class LectureExecutorExample {
             }
         }, 1, 1, TimeUnit.SECONDS);
 
+        Thread.sleep(3000);
         executorService.shutdown();
     }
 }
