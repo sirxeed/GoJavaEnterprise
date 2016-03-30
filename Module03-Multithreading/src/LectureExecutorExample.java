@@ -6,10 +6,11 @@ import java.util.stream.IntStream;
 
 public class LectureExecutorExample {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-       //new LectureExecutorExample().testExecute();
-       //new LectureExecutorExample().testSubmit();
-       //new LectureExecutorExample().testException();
-        new LectureExecutorExample().testinvokeAny();
+        //new LectureExecutorExample().testExecute();
+        //new LectureExecutorExample().testSubmit();
+        //new LectureExecutorExample().testException();
+        //new LectureExecutorExample().testInvokeAny();
+        new LectureExecutorExample().testInvokeAll();
     }
 
     public void testExecute() {
@@ -54,7 +55,7 @@ public class LectureExecutorExample {
         executorService.shutdown();
     }
 
-    public void testinvokeAny() throws ExecutionException, InterruptedException {
+    public void testInvokeAny() throws ExecutionException, InterruptedException {
         List<Callable<String>> callables = new ArrayList<>();
         Random random = new Random();
         IntStream.range(0, 3).forEach(i -> callables.add(() -> {
@@ -70,7 +71,7 @@ public class LectureExecutorExample {
         executor.shutdown();
     }
 
-    public void testinvokeAll() throws ExecutionException, InterruptedException {
+    public void testInvokeAll() throws ExecutionException, InterruptedException {
         List<Callable<String>> callables = new ArrayList<>();
         Random random = new Random();
         IntStream.range(0, 3).forEach(i -> callables.add(() -> {
@@ -79,7 +80,7 @@ public class LectureExecutorExample {
         }));
 
         ExecutorService executor = Executors.newCachedThreadPool();
-        String result = executor.invokeAny(callables);
+        List<Future<String>> result = executor.invokeAll(callables);
 
         System.out.println(result);
 
