@@ -82,7 +82,9 @@ public class LectureExecutorExample {
         ExecutorService executor = Executors.newCachedThreadPool();
         List<Future<String>> result = executor.invokeAll(callables);
 
-        System.out.println(result);
+        for (Future f : result) {
+            System.out.println(f.get());
+        }
 
         executor.shutdown();
     }
