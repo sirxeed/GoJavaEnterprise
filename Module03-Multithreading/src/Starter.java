@@ -2,7 +2,7 @@ public class Starter {
     private volatile static int counter = 0;
 
     public static void main(String[] args) throws InterruptedException {
-        final  SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
+        final SemaphoreImplementation semaphore = new SemaphoreImplementation(1);
         for (int i = 1; i <= 1000; i++) {
             Thread thread = new Thread(new Worker(i, semaphore));
             thread.start();

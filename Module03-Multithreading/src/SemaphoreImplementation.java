@@ -26,7 +26,7 @@ public class SemaphoreImplementation implements SemaphoreInterface {
             while (this.permits < permits) {
                 lock.wait();
             }
-            permits--;
+            this.permits--;
         }
     }
 
