@@ -5,15 +5,18 @@ public class PhaserExample {
         Phaser phaser = new Phaser();
         phaser.register();//register self... phaser waiting for 1 party (thread)
         int phasercount = phaser.getPhase();
-        System.out.println("Phasercount is " + phasercount);
+        System.out.println("Phasercount is " + phaser.getPhase());
+
         new PhaserExample().testPhaser(phaser, 2000);//phaser waiting for 2 parties
+        System.out.println("Phasercount is " + phasercount);
         new PhaserExample().testPhaser(phaser, 4000);//phaser waiting for 3 parties
+        System.out.println("Phasercount is " + phasercount);
         new PhaserExample().testPhaser(phaser, 6000);//phaser waiting for 4 parties
+        System.out.println("Phasercount is " + phasercount);
         //now that all threads are initiated, we will de-register main thread
         //so that the barrier condition of 3 thread arrival is meet.
         phaser.arriveAndDeregister();
         Thread.sleep(10000);
-        phasercount = phaser.getPhase();
         System.out.println("Phasercount is " + phasercount);
 
     }
