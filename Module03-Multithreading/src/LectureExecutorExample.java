@@ -76,6 +76,8 @@ public class LectureExecutorExample {
     }
 
     public void testInvokeAll() throws ExecutionException, InterruptedException {
+
+        /*
         List<Callable<String>> callables = new ArrayList<>();
         Random random = new Random();
         IntStream.range(0, 3).forEach(i -> callables.add(() -> {
@@ -91,6 +93,18 @@ public class LectureExecutorExample {
         }
 
         executor.shutdown();
+        */
+
+        List<Callable<String>> callables = new ArrayList<>();
+        IntStream.range(0, 3).forEach(i -> callables.add(() -> String.valueOf(i)));
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        List<  Future<String> > result = executor. invokeAll(callables);
+
+        for (Future f : result) {
+            System.out.println(f.get());
+        }
+        executor. shutdown();
     }
 
     public void testScheduled() {
@@ -116,7 +130,8 @@ public class LectureExecutorExample {
             }
         }, 1, 1, TimeUnit.SECONDS);
 
-        Thread.sleep(3000);
+        Thread.sleep(3000
+        );
         executorService.shutdown();
     }
 }
